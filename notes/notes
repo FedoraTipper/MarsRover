@@ -10,9 +10,9 @@ The position is made up of two integers and a letter separated by spaces, corres
 Each rover will be finished sequentially, which means that the second rover won't start to move until the first one has finished moving.
 
 """
-
+==============
 Test scenario:
-
+==============
 Input: 5 5 
 Results in platue:
    _ _ _ _ _ _
@@ -81,12 +81,15 @@ Break down of input stages:  1(MM) 2(RM) 3(MR) 4(MR) 5(RM)
 0 |_|_|_|_|_|_|
    0 1 2 3 4 5
 
-Assumptions:
+-----------------
+Assumptions made:
+-----------------
 Rovers cant move off the platue grid
 Rovers may not take grid blocks already occupied
 
-
+========
 Turning:
+========
 
 N = 0
 E = 1
@@ -102,10 +105,101 @@ Directions = (N, E, S, W)
 			 Turn left
 			 Backspace 1
 			 (N, E, S, W)
-					  ^
+					   ^
 
 
+xMove = 0
+yMove = 0
+
+Could do it:
+if dir == 0:
+	yMove = 1
+elif dir == 1:
+	xMove = 1
+elif dir == 2:
+	yMove = -1
+elif dir == 3:
+	xMove = -1
+
+or 
+
+if dir % 2 == 0:
+	yMove = 1 if dir != 2 else -1
+else:
+	xMove = 1 if dir != 3 else -1
+
+========
 Mapping:
+========
 
-Utilise standard 2x2 list.
+Utilise 2x2 array.
+-1 = Free spaces
+0,1,2,3 = Rovers and their corresponding directions
 
+=======
+Checks:
+=======
+
+--------------
+Out of bounds or rover collision:
+--------------
+if (x + xMove > 0 and y + yMove > 0) and (Array[x+xMove][y+yMove] == -1):
+	Array[x][y] = 0
+	Array[x+xMove][y+yMove] = 1
+else:
+	pass
+
+
+==================
+Handling of input:
+==================
+
+Run time orienteted (stateless)
+Input fed through text file.
+
+--------
+Movement:
+--------
+
+Utilise a stack, with pos 0 being the current rover to get the first set of inputted moves. 
+
+New rovers are pushed to the stack. 
+
+Pop off stack when move input is given and rover has moved to it's new points.
+
+--------------
+Type of input:
+--------------
+First input is the size of the map (1 space char)
+Two spaces define new rover
+
+
+
+
+===============
+Error Handling:
+===============
+
+------
+Input:
+------
+
+Movement input can be given with space or other invalid chars
+Solution: Prelist a dictionary with all valid chars and check input chars against it. Remove all invalid characters.
+
+Movement input can be given before rover creation input
+Possible solution: Maybe keep a stack for movements, else ignore
+
+
+
+==========
+Unit test:
+==========
+
+Python unit test library
+
+Scenario checks -\ Out of bounds
+				 \ Rover collisions
+
+Input test -\ Movement input with multiple invalid chars
+			\ Movement input given before rover creation input
