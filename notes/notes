@@ -99,12 +99,12 @@ Turn right = +1
 Turn left = -1
 Turning formula = (CurrentDirection + Turn) % 4
 
-			  0, 1, 2, 3
+              0, 1, 2, 3
 Directions = (N, E, S, W)
-			  ^
-			 Turn left
-			 Backspace 1
-			 (N, E, S, W)
+              ^
+             Turn left
+             Backspace 1
+             (N, E, S, W)
 					   ^
 
 
@@ -170,8 +170,9 @@ Pop off stack when move input is given and rover has moved to it's new points.
 --------------
 Type of input:
 --------------
-First input is the size of the map (1 space char)
-Two spaces define new rover
+Utilise regex, to determine the type of input
+First input is the size of the map. regex = "\d\s\d"
+Two spaces define new rover. regex = "\d\s\d\s[NnEeSsWw]"
 
 
 
@@ -186,6 +187,8 @@ Input:
 
 Movement input can be given with space or other invalid chars
 Solution: Prelist a dictionary with all valid chars and check input chars against it. Remove all invalid characters.
+
+Sizing input and new rover creation input is strict format.
 
 Movement input can be given before rover creation input
 Possible solution: Maybe keep a stack for movements, else ignore
