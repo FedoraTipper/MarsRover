@@ -274,4 +274,9 @@ TSWLatexianTemp*
 # standalone packages
 *.sta
 
-./TrustIndex/__pycache__
+# Python
+*.pyc
+./__pycache__/*
+
+# KDE
+.directory
