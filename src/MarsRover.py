@@ -62,25 +62,28 @@ def InputCommands(line, roverList, movementList, plateau):
 # Function used to initalise the size of the plateau
 def initPlateau(line):
     match = re.match(r'\d\s\d', line)
-    if not bool(match) or len(line) != 4:
+    if not bool(match) or len(line) != 3:
         print_command_help()
     split = match.group(0).split(" ")
     length = int(split[0]) + 1
     height = int(split[1]) + 1
     return [[-1 for x in range(length)] for y in range(height)], height, length
 
-def main(args, test=0):
+def main(args, test=0, roverList = list(), movementList = list()):
     if len(args) != 2:
         print_runtime_help()
     with open(args[1], 'r') as file:
-        roverList = list()
-        movementList = list()
         lines = file.readlines()
-        plateau, height, length = initPlateau(lines[0])
+        if len(lines) == 0:
+            print_error()
+        plateau, height, length = initPlateau(lines[0].replace("\n", ""))
         for line in lines[1:]:
             roverList, movementList = InputCommands(
                 line.replace("\n", ""), roverList, 
                 movementList, plateau)
+        if len(roverList) == 0:
+            print("There are no rovers on the plateau")
+            sys.exit(0)
         finRoverList, plateau = Eliminate_Moves(
             roverList, movementList, plateau, 
             height, length)
@@ -104,7 +107,7 @@ def print_results(finRoverList, plateau, result=None):
 
 def print_runtime_help():
     print("Run this python file with text file input as the single argument")
-    print("python3 MarsRover.py ./dir/to/textfile\nUtilisation of commands:")
+    print("python3 MarsRover.py ./dir/to/textfile\nUtilisation of commands:\n")
     print_command_help()
 
 def print_command_help():
@@ -113,6 +116,10 @@ def print_command_help():
     print("Movement input should follow single line/string of commands. R = Turn Right L = Turn Left and M = move")
     print("e.g. LMLMLMLMRMRMM")
     sys.exit(0)
+
+def print_error():
+    print("Input file is empty\n")
+    print_runtime_help()
 
 if __name__ == "__main__":
     main(sys.argv)
