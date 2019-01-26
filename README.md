@@ -3,7 +3,7 @@ Link: https://code.google.com/archive/p/marsrovertechchallenge/
 
 # How to run:
 
-Build a input file with any scenario you want - be it multiple rovers with plentiful moves or a massive plateau.
+Build an input file with any scenario you want - such as multiple rovers with plentiful moves.
 
 A common input file may be found under /src, named input. 
 
