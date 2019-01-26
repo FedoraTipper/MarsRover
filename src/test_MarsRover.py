@@ -1,11 +1,6 @@
 import unittest
 import MarsRover as MR
 
-
-class MarsRoverObject():
-	def __init__(self):
-		self.MR = MR
-
 class TestCollision(unittest.TestCase):
 	def setUp(self):
 		self.args = ["MarsRover.py","test_input/collision_input"]
