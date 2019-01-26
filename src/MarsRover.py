@@ -48,13 +48,15 @@ def createRover(x, y, direction, plateau, num_direction=-1):
     plateau[x][y] = num_direction
     return [x, y], plateau
 
-def InputCommands(line, roverList, movementList, plateau):
+def InputCommands(line, roverList, movementList, plateau, height, length):
     match = re.match(r'\d\s\d\s[NnEeSsWw]', line)
     if bool(match) and len(line) == 5:
         split = match.group(0).split(" ")
-        coords, plateau = createRover(int(split[0]), int(split[1]),
-                                      split[2], plateau)
-        roverList.append(coords)
+        if(int(split[0]) >= 0 and int(split[0]) <= length and
+           int(split[1]) >= 0 and int(split[1]) <= height):
+            coords, plateau = createRover(int(split[0]), int(split[1]),
+                                          split[2], plateau)
+            roverList.append(coords)
     else:
         movementList.append(format_move_input(line))
     return roverList, movementList
@@ -77,12 +79,13 @@ def main(args, test=0):
         movementList = list()
         lines = file.readlines()
         if len(lines) == 0:
-            print_error()
+            print_file_error()
         plateau, height, length = initPlateau(lines[0].replace("\n", ""))
         for line in lines[1:]:
             roverList, movementList = InputCommands(
                 line.replace("\n", ""), roverList, 
-                movementList, plateau)
+                movementList, plateau, height,
+                length)
         if len(roverList) == 0:
             print("There are no rovers on the plateau")
             sys.exit(0)
@@ -119,7 +122,7 @@ def print_command_help():
     print("e.g. LMLMLMLMRMRMM")
     sys.exit(0)
 
-def print_error():
+def print_file_error():
     print("Input file is empty\n")
     print_runtime_help()
 
