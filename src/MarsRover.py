@@ -69,10 +69,12 @@ def initPlateau(line):
     height = int(split[1]) + 1
     return [[-1 for x in range(length)] for y in range(height)], height, length
 
-def main(args, test=0, roverList = list(), movementList = list()):
+def main(args, test=0):
     if len(args) != 2:
         print_runtime_help()
     with open(args[1], 'r') as file:
+        roverList = list()
+        movementList = list()
         lines = file.readlines()
         if len(lines) == 0:
             print_error()
